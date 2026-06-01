@@ -1,0 +1,12 @@
+app = "rekart-mailer-backend"
+primary_region = "iad"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  NODE_ENV = "production"
+  API_PREFIX = "api/v1"
+  STORAGE_PROVIDER = "local"
+  FRONTEND_URL = "https://rekart-mailer-frontend.fly.dev"
+  BACKEND_BASE_URL = "https://rekart-mailer-backend.fly.dev"

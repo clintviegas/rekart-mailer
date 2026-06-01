@@ -1,0 +1,18 @@
+app = "rekart-mailer-frontend"
+primary_region = "iad"
+
+[build]
+  dockerfile = "Dockerfile"
+  args = {
+    NEXT_PUBLIC_API_BASE_URL = "https://rekart-mailer-backend.fly.dev/api/v1",
+    NEXT_PUBLIC_API_URL = "https://rekart-mailer-backend.fly.dev/api/v1",
+    NEXT_PUBLIC_APP_URL = "https://rekart-mailer-frontend.fly.dev",
+    NEXT_PUBLIC_APP_NAME = "Rekart Mailer"
+  }
+
+[env]
+  NODE_ENV = "production"
+  NEXT_PUBLIC_API_BASE_URL = "https://rekart-mailer-backend.fly.dev/api/v1"
+  NEXT_PUBLIC_API_URL = "https://rekart-mailer-backend.fly.dev/api/v1"
+  NEXT_PUBLIC_APP_URL = "https://rekart-mailer-frontend.fly.dev"
+  NEXT_PUBLIC_APP_NAME = "Rekart Mailer"

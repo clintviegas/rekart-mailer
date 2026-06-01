@@ -1,0 +1,7 @@
+{
+  "watch": ["src"],
+  "ext": "ts,json",
+  "ignore": ["**/*.spec.ts", "node_modules", "dist", "coverage", "test"],
+  "delay": 1500,
+  "exec": "node ./node_modules/@nestjs/cli/bin/nest.js build && node dist/main.js"
+}

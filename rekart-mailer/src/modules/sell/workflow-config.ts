@@ -1,0 +1,493 @@
+import {
+  Inbox,
+  CalendarCheck,
+  ScanSearch,
+  BadgeDollarSign,
+  CreditCard,
+  PackageCheck,
+  CheckCircle2,
+} from "lucide-react";
+import type { WorkflowConfig } from "./types";
+
+export const WORKFLOW_CONFIGS: WorkflowConfig[] = [
+  // ── 1. Request Received ──────────────────────────────────────────────────
+  {
+    key: "request_received",
+    stepId: "request-received",
+    title: "Request Received",
+    description: "Sent when a sell request is submitted",
+    icon: Inbox,
+    defaultSubject: "We've received your sell request — #{{requestId}}",
+    fields: [
+      {
+        name: "customerName",
+        label: "Customer Name",
+        type: "text",
+        required: true,
+        placeholder: "e.g. Rahul Sharma",
+      },
+      {
+        name: "requestId",
+        label: "Request ID",
+        type: "readonly",
+        hint: "Auto-generated · shared across all workflow stages",
+        fullWidth: true,
+      },
+      {
+        name: "deviceName",
+        label: "Item name",
+        type: "text",
+        required: true,
+        placeholder: "e.g. LG washing machine, 55\" TV, iPhone 15 Pro",
+      },
+      {
+        name: "deviceBrand",
+        label: "Brand",
+        type: "select",
+        options: ["Apple", "Samsung", "Google", "OnePlus", "Xiaomi", "Realme", "Other"],
+      },
+      {
+        name: "condition",
+        label: "Item condition",
+        type: "select",
+        required: true,
+        options: ["Excellent", "Good", "Fair", "Damaged"],
+      },
+      {
+        name: "estimatedPriceMin",
+        label: "Estimated price (min)",
+        type: "number",
+        placeholder: "e.g. 400",
+        hint: "Lower bound of the customer’s expected range",
+      },
+      {
+        name: "estimatedPriceMax",
+        label: "Estimated price (max)",
+        type: "number",
+        placeholder: "e.g. 600",
+        hint: "Upper bound of the customer’s expected range",
+      },
+      {
+        name: "trackUrl",
+        label: "Tracking URL",
+        type: "url",
+        placeholder: "https://track.rekart.io/request/...",
+        fullWidth: true,
+      },
+      {
+        name: "requestDate",
+        label: "Request Date",
+        type: "date",
+        required: true,
+      },
+    ],
+  },
+
+  // ── 2. Pickup Scheduled ──────────────────────────────────────────────────
+  {
+    key: "pickup_scheduled",
+    stepId: "pickup-scheduled",
+    title: "Pickup Scheduled",
+    description: "Notifies customer of confirmed pickup time",
+    icon: CalendarCheck,
+    defaultSubject: "Your pickup is scheduled for {{pickupDate}}",
+    fields: [
+      {
+        name: "customerName",
+        label: "Customer Name",
+        type: "text",
+        required: true,
+        placeholder: "e.g. Rahul Sharma",
+      },
+      {
+        name: "requestId",
+        label: "Request ID",
+        type: "readonly",
+        hint: "Auto-generated · shared across all workflow stages",
+        fullWidth: true,
+      },
+      {
+        name: "pickupDate",
+        label: "Pickup Date",
+        type: "date",
+        required: true,
+      },
+      {
+        name: "pickupTimeSlot",
+        label: "Pickup Time Slot",
+        type: "select",
+        required: true,
+        options: ["9:00 AM – 12:00 PM", "12:00 PM – 3:00 PM", "3:00 PM – 6:00 PM", "6:00 PM – 9:00 PM"],
+      },
+      {
+        name: "agentName",
+        label: "Agent Name",
+        type: "text",
+        placeholder: "e.g. Amit Kumar",
+      },
+      {
+        name: "agentContact",
+        label: "Agent Contact",
+        type: "text",
+        placeholder: "e.g. +91 98765 43210",
+      },
+      {
+        name: "pickupAddress",
+        label: "Pickup Address",
+        type: "textarea",
+        placeholder: "Full pickup address including landmark…",
+        fullWidth: true,
+      },
+      {
+        name: "trackUrl",
+        label: "Tracking URL",
+        type: "url",
+        placeholder: "https://track.rekart.io/...",
+        fullWidth: true,
+      },
+    ],
+  },
+
+  // ── 3. Inspection Underway ───────────────────────────────────────────────
+  {
+    key: "inspection_underway",
+    stepId: "inspection-underway",
+    title: "Inspection Underway",
+    description: "Item is being assessed by our team",
+    icon: ScanSearch,
+    defaultSubject: "We're inspecting your {{deviceName}} — stay tuned",
+    fields: [
+      {
+        name: "customerName",
+        label: "Customer Name",
+        type: "text",
+        required: true,
+        placeholder: "e.g. Rahul Sharma",
+      },
+      {
+        name: "requestId",
+        label: "Request ID",
+        type: "readonly",
+        hint: "Auto-generated · shared across all workflow stages",
+        fullWidth: true,
+      },
+      {
+        name: "deviceName",
+        label: "Item name",
+        type: "text",
+        required: true,
+        placeholder: "e.g. LG washing machine, 55\" TV, iPhone 15 Pro",
+      },
+      {
+        name: "inspectionStartDate",
+        label: "Inspection Started",
+        type: "date",
+      },
+      {
+        name: "estimatedCompletion",
+        label: "Estimated Completion",
+        type: "text",
+        placeholder: "e.g. Within 2 business hours",
+        hint: "Shown to customer as a time estimate",
+      },
+      {
+        name: "inspectorName",
+        label: "Inspector Name",
+        type: "text",
+        placeholder: "e.g. Priya Verma",
+      },
+      {
+        name: "inspectionCenter",
+        label: "Inspection Centre",
+        type: "text",
+        placeholder: "e.g. Rekart Hub – Andheri West",
+      },
+      {
+        name: "trackUrl",
+        label: "Tracking URL",
+        type: "url",
+        placeholder: "https://track.rekart.io/...",
+        fullWidth: true,
+      },
+    ],
+  },
+
+  // ── 4. Offer Ready ───────────────────────────────────────────────────────
+  {
+    key: "offer_ready",
+    stepId: "offer-ready",
+    title: "Offer Ready",
+    description: "Final offer value is ready for review",
+    icon: BadgeDollarSign,
+    defaultSubject: "Your offer is ready — ₹{{finalOffer}} for your {{deviceName}}",
+    fields: [
+      {
+        name: "customerName",
+        label: "Customer Name",
+        type: "text",
+        required: true,
+        placeholder: "e.g. Rahul Sharma",
+      },
+      {
+        name: "requestId",
+        label: "Request ID",
+        type: "readonly",
+        hint: "Auto-generated · shared across all workflow stages",
+        fullWidth: true,
+      },
+      {
+        name: "deviceName",
+        label: "Item name",
+        type: "text",
+        required: true,
+        placeholder: "e.g. LG washing machine, 55\" TV, iPhone 15 Pro",
+      },
+      {
+        name: "finalOffer",
+        label: "Final Offer Amount",
+        type: "currency",
+        required: true,
+        placeholder: "0.00",
+        currencySymbol: "₹",
+        hint: "The confirmed valuation amount",
+      },
+      {
+        name: "originalEstimate",
+        label: "Original Estimate",
+        type: "currency",
+        placeholder: "0.00",
+        currencySymbol: "₹",
+      },
+      {
+        name: "offerExpiresAt",
+        label: "Offer Expires On",
+        type: "date",
+        required: true,
+        hint: "Customer must accept or decline before this date",
+      },
+      {
+        name: "offerNotes",
+        label: "Offer Notes",
+        type: "textarea",
+        placeholder: "Any deductions or special conditions…",
+        fullWidth: true,
+      },
+      {
+        name: "acceptUrl",
+        label: "Accept Offer URL",
+        type: "url",
+        placeholder: "https://app.rekart.io/accept/...",
+        required: true,
+      },
+      {
+        name: "declineUrl",
+        label: "Decline Offer URL",
+        type: "url",
+        placeholder: "https://app.rekart.io/decline/...",
+      },
+    ],
+  },
+
+  // ── 5. Payment Sent ──────────────────────────────────────────────────────
+  {
+    key: "payment_sent",
+    stepId: "payment-sent",
+    title: "Payment Sent",
+    description: "Confirms payment has been transferred",
+    icon: CreditCard,
+    defaultSubject: "Payment of ₹{{paymentAmount}} has been sent to your account",
+    fields: [
+      {
+        name: "customerName",
+        label: "Customer Name",
+        type: "text",
+        required: true,
+        placeholder: "e.g. Rahul Sharma",
+      },
+      {
+        name: "requestId",
+        label: "Request ID",
+        type: "readonly",
+        hint: "Auto-generated · shared across all workflow stages",
+        fullWidth: true,
+      },
+      {
+        name: "paymentAmount",
+        label: "Payment Amount",
+        type: "currency",
+        required: true,
+        placeholder: "0.00",
+        currencySymbol: "₹",
+      },
+      {
+        name: "paymentMethod",
+        label: "Payment Method",
+        type: "select",
+        required: true,
+        options: ["Bank Transfer (NEFT)", "Bank Transfer (RTGS)", "UPI", "Cheque", "Cash"],
+      },
+      {
+        name: "transactionId",
+        label: "Transaction / UTR ID",
+        type: "text",
+        required: true,
+        placeholder: "e.g. UTIB0000123456789",
+      },
+      {
+        name: "paymentDate",
+        label: "Payment Date",
+        type: "date",
+        required: true,
+      },
+      {
+        name: "bankName",
+        label: "Bank Name",
+        type: "text",
+        placeholder: "e.g. HDFC Bank",
+      },
+      {
+        name: "accountLast4",
+        label: "Account Last 4 Digits",
+        type: "text",
+        placeholder: "e.g. 4321",
+      },
+      {
+        name: "receiptUrl",
+        label: "Receipt URL",
+        type: "url",
+        placeholder: "https://pay.rekart.io/receipt/...",
+        fullWidth: true,
+      },
+    ],
+  },
+
+  // ── 6. Item Collected ──────────────────────────────────────────────────
+  {
+    key: "device_collected",
+    stepId: "device-collected",
+    title: "Item Collected",
+    description: "Confirms the item has been collected",
+    icon: PackageCheck,
+    defaultSubject: "Your {{deviceName}} has been collected successfully",
+    fields: [
+      {
+        name: "customerName",
+        label: "Customer Name",
+        type: "text",
+        required: true,
+        placeholder: "e.g. Rahul Sharma",
+      },
+      {
+        name: "requestId",
+        label: "Request ID",
+        type: "readonly",
+        hint: "Auto-generated · shared across all workflow stages",
+        fullWidth: true,
+      },
+      {
+        name: "deviceName",
+        label: "Item name",
+        type: "text",
+        required: true,
+        placeholder: "e.g. LG washing machine, 55\" TV, iPhone 15 Pro",
+      },
+      {
+        name: "collectionDate",
+        label: "Collection Date",
+        type: "date",
+        required: true,
+      },
+      {
+        name: "collectedBy",
+        label: "Collected By",
+        type: "text",
+        placeholder: "e.g. Sanjay Mehta (Field Agent)",
+      },
+      {
+        name: "deviceConditionOnArrival",
+        label: "Condition on Arrival",
+        type: "select",
+        options: ["As Described", "Better Than Described", "Worse Than Described"],
+      },
+      {
+        name: "trackingId",
+        label: "Internal Tracking ID",
+        type: "text",
+        placeholder: "e.g. WH-2024-0087",
+      },
+      {
+        name: "collectionNotes",
+        label: "Collection Notes",
+        type: "textarea",
+        placeholder: "Any observations or remarks during collection…",
+        fullWidth: true,
+      },
+    ],
+  },
+
+  // ── 7. Completed ─────────────────────────────────────────────────────────
+  {
+    key: "completed",
+    stepId: "completed",
+    title: "Completed",
+    description: "Full transaction completed successfully",
+    icon: CheckCircle2,
+    defaultSubject: "Your sell request #{{requestId}} is complete — Thank you!",
+    fields: [
+      {
+        name: "customerName",
+        label: "Customer Name",
+        type: "text",
+        required: true,
+        placeholder: "e.g. Rahul Sharma",
+      },
+      {
+        name: "requestId",
+        label: "Request ID",
+        type: "readonly",
+        hint: "Auto-generated · shared across all workflow stages",
+        fullWidth: true,
+      },
+      {
+        name: "finalAmount",
+        label: "Final Amount Paid",
+        type: "currency",
+        required: true,
+        placeholder: "0.00",
+        currencySymbol: "₹",
+      },
+      {
+        name: "completionDate",
+        label: "Completion Date",
+        type: "date",
+        required: true,
+      },
+      {
+        name: "feedbackUrl",
+        label: "Feedback / Rating URL",
+        type: "url",
+        placeholder: "https://rekart.io/feedback/...",
+      },
+      {
+        name: "supportEmail",
+        label: "Support Email",
+        type: "email",
+        placeholder: "support@rekart.io",
+      },
+      {
+        name: "closingMessage",
+        label: "Closing Message",
+        type: "textarea",
+        placeholder: "A personal message to the customer…",
+        fullWidth: true,
+        hint: "Optional personalised note shown at the bottom of the email",
+      },
+    ],
+  },
+];
+
+export function getWorkflowConfig(stepId: string): WorkflowConfig {
+  return (
+    WORKFLOW_CONFIGS.find((c) => c.stepId === stepId) ?? WORKFLOW_CONFIGS[0]
+  );
+}

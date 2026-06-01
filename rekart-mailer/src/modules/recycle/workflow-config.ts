@@ -1,0 +1,77 @@
+﻿import {
+  Inbox,
+  CalendarCheck,
+  PackageCheck,
+  Award,
+} from "lucide-react";
+import type { WorkflowConfig } from "./types";
+
+export const WORKFLOW_CONFIGS: WorkflowConfig[] = [
+  {
+    key: "recycle_request",
+    stepId: "recycle-request",
+    title: "Recycle Request",
+    description: "Customer confirms items and pickup details",
+    icon: Inbox,
+    defaultSubject: "Confirm your e-waste pickup — #{{requestId}}",
+    fields: [
+      { name: "customerName", label: "Customer Name", type: "text", required: true },
+      { name: "requestId", label: "Request ID", type: "readonly", hint: "Auto-generated · RKRC prefix", fullWidth: true },
+      { name: "collectionMode", label: "Collection mode", type: "select", required: true, options: ["listed", "bulk_estimate"] },
+      { name: "recycleItemsSummary", label: "Items summary", type: "textarea", hint: "Auto-built from item rows or bulk description", fullWidth: true },
+      { name: "pickupAddress", label: "Pickup address", type: "textarea", fullWidth: true },
+      { name: "collectionNotes", label: "Notes for collection team", type: "textarea", fullWidth: true },
+      { name: "trackUrl", label: "Tracking URL", type: "url", fullWidth: true },
+    ],
+  },
+  {
+    key: "pickup_scheduled",
+    stepId: "pickup-scheduled",
+    title: "Pickup Scheduled",
+    description: "Pickup date and agent assigned",
+    icon: CalendarCheck,
+    defaultSubject: "Pickup scheduled — {{pickupDate}} {{pickupTime}}",
+    fields: [
+      { name: "customerName", label: "Customer Name", type: "text", required: true },
+      { name: "requestId", label: "Request ID", type: "readonly", fullWidth: true },
+      { name: "pickupDate", label: "Pickup Date", type: "date", required: true },
+      { name: "pickupTime", label: "Pickup Time", type: "text", required: true },
+      { name: "agentName", label: "Agent Name", type: "text" },
+      { name: "agentPhone", label: "Agent Phone", type: "text" },
+      { name: "pickupAddress", label: "Pickup Address", type: "textarea", fullWidth: true },
+    ],
+  },
+  {
+    key: "devices_collected",
+    stepId: "devices-collected",
+    title: "Devices Collected",
+    description: "Field team confirms actual collection",
+    icon: PackageCheck,
+    defaultSubject: "Devices collected — #{{requestId}}",
+    fields: [
+      { name: "customerName", label: "Customer Name", type: "text", required: true },
+      { name: "requestId", label: "Request ID", type: "readonly", fullWidth: true },
+      { name: "collectedDate", label: "Collected on", type: "date", required: true },
+      { name: "collectedBy", label: "Collected by", type: "text" },
+      { name: "actualItemsSummary", label: "Actual items collected", type: "textarea", fullWidth: true },
+      { name: "actualTotalQty", label: "Total quantity", type: "text", hint: "Final count after onsite assessment" },
+      { name: "collectionNotes", label: "Collection notes", type: "textarea", fullWidth: true },
+    ],
+  },
+  {
+    key: "certificate_issued",
+    stepId: "certificate-issued",
+    title: "Certificate Issued",
+    description: "Recycling certificate sent to customer",
+    icon: Award,
+    defaultSubject: "Your recycling certificate — #{{requestId}}",
+    fields: [
+      { name: "customerName", label: "Customer Name", type: "text", required: true },
+      { name: "requestId", label: "Request ID", type: "readonly", fullWidth: true },
+      { name: "certificateNumber", label: "Certificate number", type: "text", required: true },
+      { name: "certificateIssuedDate", label: "Issued on", type: "date", required: true },
+      { name: "certificateUrl", label: "Certificate download URL", type: "url", fullWidth: true },
+      { name: "actualItemsSummary", label: "Items recycled", type: "textarea", fullWidth: true },
+    ],
+  },
+];
